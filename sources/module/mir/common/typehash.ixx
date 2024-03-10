@@ -8,11 +8,10 @@ module;
 
 export module mir.common:typehash;
 
-namespace mir::common
+export namespace mir::common
 {
-namespace detail
-{
-inline constexpr std::uint64_t
+
+inline constexpr std::size_t
 fnv1a_64(char const* s, std::size_t count)
 {
     return ((count ? fnv1a_64(s, count - 1) : 14695981039346656037u) ^ s[count]) * 1099511628211u;
@@ -25,7 +24,7 @@ hash(std::string_view view)
 }
 
 template <typename T>
-struct type_name
+struct name_of
 {
     static consteval std::string_view mangled_name()
     {
@@ -36,12 +35,7 @@ struct type_name
     static constexpr std::string_view value = mangled_name();
 };
 
-} // namespace detail
-
-export
-{
-    template <class T>
-    constexpr auto type_hash = detail::hash(detail::type_name<T>::value);
-}
+template <class T>
+constexpr auto type_hash = hash(name_of<T>::value);
 
 } // namespace mir::common

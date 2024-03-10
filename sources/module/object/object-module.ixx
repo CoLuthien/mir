@@ -2,13 +2,12 @@
 module;
 
 #include "object_api.hpp"
-#include "object_macros.hpp"
 
-#include <unordered_map>
+#include <functional>
 #include <string_view>
-#include <span>
+#include <string>
 
 export module ivd.object;
 
-export import :pobject;
-export import :pclass;
+export import ivd.object.type;
+export import :object;

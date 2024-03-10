@@ -1,10 +1,9 @@
 
 module;
 
-export module mir.function;
+export module mir.property;
 
 export import :impl;
-export import :iterator;
 export import :helper;
 export import :info;
-
+export import :iterator;

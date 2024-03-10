@@ -2,11 +2,13 @@
 module;
 
 #include <cstddef>
+#include <span>
+#include <string_view>
 
 export module mir.property:impl;
 
 import :helper;
-import :info;
+export import :info;
 
 export namespace mir
 {
@@ -28,6 +30,15 @@ public:
     }
 
 public:
+    std::size_t      pp_size() const { return m_handle->pp_size(); }
+    std::size_t      pp_hash() const { return m_handle->pp_hash(); }
+    std::string_view pp_name() const { return m_handle->pp_name(); }
+
+    std::span<std::byte> pp_data(void* obj) const
+    {
+        return std::span<std::byte>(m_handle->pp_ptr(obj), pp_size());
+    }
+
     template <class V>
     V get(void* obj) const
     {

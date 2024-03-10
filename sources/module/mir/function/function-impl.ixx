@@ -3,6 +3,7 @@
 module;
 
 #include <cstddef>
+#include <string_view>
 
 export module mir.function:impl;
 
@@ -18,11 +19,11 @@ public:
     static constexpr auto reflect();
 
 public:
+    std::string_view fn_name() { return m_handle->fn_name(); }
+
+public:
     template <typename R, typename... Args>
     R invoke(void* obj, Args... args) const;
-
-    template <typename R, typename... Args>
-    R invoke(Args... args) const;
 
 private:
     constexpr function(fn::handle const* const handle) : m_handle(handle) {}
@@ -48,16 +49,6 @@ function::invoke(void* obj, Args... args) const
     auto ptr   = static_cast<type const*>(m_handle);
 
     return ptr->invoke(obj, args...);
-}
-
-template <typename R, typename... Args>
-R
-function::invoke(Args... args) const
-{
-    using type = fn::interface<R, Args...>;
-    auto ptr   = static_cast<type const*>(m_handle);
-
-    return ptr->invoke(args...);
 }
 
 } // namespace mir

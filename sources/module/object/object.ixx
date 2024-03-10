@@ -2,29 +2,26 @@
 module;
 
 #include "object_api.hpp"
-#include "object_macros.hpp"
-#include "mir_macros.hpp"
+#include "mir/mir_macros.hpp"
 
-#include <span>
+#include <functional>
+#include <string_view>
+#include <string>
+#include <unordered_map>
 
-export module ivd.object:pobject;
+export module ivd.object:object;
 
 import mir;
+import ivd.object.type;
 
 export namespace ivd
 {
-class pclass;
-
-class OBJECT_API pobject
+class OBJECT_API object : public field
 {
 public:
-    DECLARE_POBJECT()
+    using this_type = object;
 
-public:
-    pobject();
-    virtual ~pobject();
-
-public:
+private:
 };
 
 } // namespace ivd

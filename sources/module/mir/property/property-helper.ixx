@@ -2,10 +2,12 @@
 module;
 
 #include <cstddef>
+#include <type_traits>
 
 export module mir.property:helper;
 
 import mir.common;
+import :enums;
 
 export namespace mir::pp
 {

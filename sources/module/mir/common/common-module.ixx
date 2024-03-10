@@ -5,10 +5,10 @@ module;
 
 export module mir.common;
 
-export import :this_type;
-export import :index;
 export import :typehash;
+export import :index;
 export import :typelist;
+export import :this_type;
 
 export namespace mir::common
 {
@@ -16,6 +16,12 @@ template <typename T>
 concept is_iterable_type = requires {
     T::begin();
     T::end();
+};
+
+template <class T>
+concept is_reflected = requires {
+    typename T::template mir_property<0>;
+    typename T::template mir_function<0>;
 };
 
 template <class, template <class...> class>

@@ -5,6 +5,7 @@ module;
 #include <tuple>
 #include <type_traits>
 #include <functional>
+#include <string_view>
 
 export module mir.function:info;
 
@@ -12,11 +13,13 @@ import :helper;
 
 export namespace mir::fn
 {
-
 class handle
 {
 public:
     virtual ~handle() = default;
+
+public:
+    constexpr virtual std::string_view fn_name() const = 0;
 };
 
 template <typename R, typename... Args>
@@ -27,7 +30,6 @@ public:
 
 public:
     virtual R invoke(void* context, Args... args) const = 0;
-    virtual R invoke(Args... args) const                = 0;
 };
 
 template <class Owner, std::size_t Index, typename R, typename... Args>
@@ -39,11 +41,13 @@ public:
     using info_t   = fn::info<Owner, Index>;
 
 public:
-    static constexpr auto info() { return &fn_instance; }
+    static constexpr auto              info() { return &fn_instance; }
+    constexpr virtual std::string_view fn_name() const override { return name; }
 
 public:
     virtual R invoke(void* object, Args... args) const override final
     {
+        static_assert(std::is_invocable_v<fn::fn_type<Owner, Index>, owner_t, Args...>);
         if constexpr (std::is_invocable_v<fn::fn_type<Owner, Index>, owner_t, Args...>)
         {
             return std::invoke(
@@ -54,21 +58,10 @@ public:
             return {};
         }
     }
-    virtual R invoke(Args... args) const override final
-    {
-        if constexpr (std::is_invocable_v<fn::fn_type<Owner, Index>, decltype(args)...>)
-        {
-            return std::invoke(fn_pointer, std::forward<Args>(args)...);
-        }
-        else
-        {
-            return {};
-        }
-    }
 
 public:
     inline static auto const fn_pointer = fn::fn_pointer<owner_t, Index>;
-    static auto constexpr name   = fn::name<owner_t, Index>;
+    static auto constexpr name          = fn::name<owner_t, Index>;
 
 public:
     static constinit instance const fn_instance;
