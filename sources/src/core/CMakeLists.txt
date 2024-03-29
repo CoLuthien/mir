@@ -17,6 +17,11 @@ PUBLIC
     BASE_DIRS
         ${CORE_MODULE_DIRECTORY}
     FILES
+        ${CORE_MODULE_DIRECTORY}/core.ixx;
+
+
+        ${CORE_MODULE_DIRECTORY}/utils/util-classes.ixx;
+
 )
 
 

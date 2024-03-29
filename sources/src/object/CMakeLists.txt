@@ -14,18 +14,22 @@ GENERATE_EXPORT_HEADER(object
 )
 target_sources(object
 PRIVATE
-    type/field.cpp
+    ${OBJECT_SOURCE_DIRECTORY}/field.cpp
+
 PUBLIC
     FILE_SET CXX_MODULES
     BASE_DIRS
         ${OBJECT_MODULE_DIRECTORY}
     FILES
-        ${OBJECT_MODULE_DIRECTORY}/object-module.ixx
+        ${OBJECT_MODULE_DIRECTORY}/module.ixx
+
+        ${OBJECT_MODULE_DIRECTORY}/field.ixx
+
         ${OBJECT_MODULE_DIRECTORY}/object.ixx
 
-        ${OBJECT_MODULE_DIRECTORY}/type/type-module.ixx
-        ${OBJECT_MODULE_DIRECTORY}/type/field.ixx
-        ${OBJECT_MODULE_DIRECTORY}/type/property.ixx
+        ${OBJECT_MODULE_DIRECTORY}/type.ixx
+
+
 
 )
 
@@ -42,6 +46,7 @@ PRIVATE
 
 target_link_libraries(object
 PUBLIC
+    core
     mir
 
 PRIVATE
